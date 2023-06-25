@@ -22,53 +22,23 @@ lbl1 = tk.Label(root, text="Search using departure (iata), arrival (iata), airli
 # lbl1.pack()
 lbl1.grid(row=1, column=1, padx=1, pady=2)
 
-search_code = 0
 def set_search():
-    if button_dep_state.get() == 1:
+    choice = search_choice.get()
+    if choice == 'Departure':
         return 1
-    elif button_arr_state.get() == 1:
+    elif choice == 'Arrival':
         return 2
-    elif button_air_state.get() == 1:
+    elif choice == 'Airline':
         return 3
-    elif button_fli_state.get() == 1:
+    elif choice == 'Flight #':
         return 4
+    return 0
 
-def check1():
-    button_search_arr.deselect()
-    button_search_air.deselect()
-    button_search_fli.deselect()
-
-def check2():
-    button_search_dep.deselect()
-    button_search_air.deselect()
-    button_search_fli.deselect()
-
-def check3():
-    button_search_dep.deselect()
-    button_search_arr.deselect()
-    button_search_fli.deselect()
-
-def check4():
-    button_search_dep.deselect()
-    button_search_arr.deselect()
-    button_search_air.deselect()
-
-button_dep_state = tk.IntVar()
-button_arr_state = tk.IntVar()
-button_air_state = tk.IntVar()
-button_fli_state = tk.IntVar()
-button_search_dep = tk.Checkbutton(root, text="Departure", variable=button_dep_state, command=check1)
-button_search_arr = tk.Checkbutton(root, text="Arrival", variable=button_arr_state, command=check2)
-button_search_air = tk.Checkbutton(root, text="Airline", variable=button_air_state, command=check3)
-button_search_fli = tk.Checkbutton(root, text="Flight #", variable=button_fli_state, command=check4)
-# button_search_dep.pack()
-# button_search_arr.pack()
-# button_search_air.pack()
-# button_search_fli.pack()
-button_search_dep.grid(row=2, column=1)
-button_search_arr.grid(row=3, column=1)
-button_search_air.grid(row=4, column=1)
-button_search_fli.grid(row=5, column=1)
+search_list = ['Departure', 'Arrival', 'Airline', 'Flight #']
+search_choice = tk.StringVar()
+search_choice.set('---')
+search_dropdown = tk.OptionMenu(root, search_choice, *search_list)
+search_dropdown.grid(row=2, column=1)
 
 enter = tk.Entry(root, width=20)
 # enter.pack()
