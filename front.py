@@ -22,17 +22,21 @@ lbl1.grid(row=1, column=1, padx=1, pady=2)
 
 def set_search():
     choice = search_choice.get()
-    if choice == 'Departure':
+    if choice == 'Departure (Name)':
         return 1
-    elif choice == 'Arrival':
+    elif choice == 'Departure (IATA)':
         return 2
-    elif choice == 'Airline':
+    elif choice == 'Arrival (Name)':
         return 3
-    elif choice == 'Flight #':
+    elif choice == 'Arrival (IATA)':
         return 4
+    elif choice == 'Airline':
+        return 5
+    elif choice == 'Flight #':
+        return 6
     return 0
 
-search_list = ['Departure', 'Arrival', 'Airline', 'Flight #']
+search_list = ['Departure (Name)', 'Departure (IATA)', 'Arrival (Name)', 'Arrival (IATA)', 'Airline', 'Flight #']
 search_choice = tk.StringVar()
 search_choice.set('---')
 search_dropdown = tk.OptionMenu(root, search_choice, *search_list)
