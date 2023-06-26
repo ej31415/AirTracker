@@ -15,11 +15,9 @@ menu.add_cascade(label='File', menu=item)
 root.config(menu=menu)
 
 header = tk.Label(root, text="Flight Tracking")
-# header.pack()
 header.grid(row=0, column=1, padx=1, pady=2)
 
 lbl1 = tk.Label(root, text="Search using departure (iata), arrival (iata), airline, or flight number (iata).")
-# lbl1.pack()
 lbl1.grid(row=1, column=1, padx=1, pady=2)
 
 def set_search():
@@ -41,11 +39,9 @@ search_dropdown = tk.OptionMenu(root, search_choice, *search_list)
 search_dropdown.grid(row=2, column=1)
 
 enter = tk.Entry(root, width=20)
-# enter.pack()
 enter.grid(row=6, column=1, padx=1, pady=2)
 
 output = tk.Text(root, height=20, width=120, wrap=tk.WORD)
-# output.pack()
 output.grid(row=7, column=0, columnspan=3, padx=1, pady=2)
 
 def click_search():
@@ -57,7 +53,6 @@ def click_search():
     output.insert(tk.END, back_functions.display(user_input, search_code))
 
 btn1 = tk.Button(root, text="Search", fg="red", command=click_search)
-# btn1.pack()
 btn1.grid(row=6, column=2, padx=1, pady=2)
 
 def click_restore():
