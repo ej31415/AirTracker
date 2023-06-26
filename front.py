@@ -60,13 +60,9 @@ btn1 = tk.Button(root, text="Search", fg="red", command=click_search)
 btn1.grid(row=6, column=2, padx=1, pady=2)
 
 def click_restore():
-    with open("data.csv") as data_file:
-        reader = csv.reader(data_file)
-        for row in reader:
-            term = row[0]
-            code = int(row[1])
-        output.delete('0.0', tk.END)
-        output.insert(tk.END, back_functions.display(term, code))
+    txt = back_functions.read_saved_search("data.csv")
+    output.delete('0.0', tk.END)
+    output.insert(tk.END, txt)
 
 btnRestore = tk.Button(root, text="Restore", fg="black", command=click_restore)
 btnRestore.grid(row=1, column=2, padx=1, pady=2)
