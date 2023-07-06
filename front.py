@@ -65,8 +65,9 @@ enterSearch = tk.OptionMenu(root, search_term, [])
 enterSearch.grid(row=3, column=0, padx=1, pady=2)
 btnSearch = tk.Button(root, text="Search", fg="red", command=click_search)
 btnSearch.grid(row=4, column=0, padx=1, pady=2)
-output = tk.Text(root, height=30, width=80, wrap=tk.WORD, state="disabled")
+output = tk.Text(root, height=30, width=80, wrap=tk.WORD)
 output.grid(row=5, column=0, columnspan=2, padx=1, pady=2)
+output.config(state="disabled")
 
 def click_save():
     search_code = set_search()
@@ -89,8 +90,12 @@ btnRestore.grid(row=4, column=1, padx=1, pady=2)
 
 def click_track():
     tracking.configure(state="normal")
+    flight_num = enterTrack.get()
+    if (flight_num + "\n") in open('track_list.txt', 'r').readlines():
+        tracking.configure(state="disabled")
+        tkmsg.showinfo("Notice", "Flight " + flight_num + " is already being tracked.")
+        return
     with open("track_list.txt", 'a+') as track_list:
-        flight_num = enterTrack.get()
         track_list.write(flight_num + "\n")
         tkmsg.showinfo("Tracking! ", "Now tracking " + flight_num)
     tracking.delete('0.0', tk.END)
@@ -113,7 +118,9 @@ btnTrack = tk.Button(root, text="Track", command=click_track)
 btnTrack.grid(row=3, column=3, padx=1, pady=2)
 btnClear = tk.Button(root, text="Clear All", command=click_clear_tracking)
 btnClear.grid(row=4, column=3, padx=1, pady=2)
-tracking = tk.Text(root, height=30, width=40, wrap=tk.WORD, state="disabled")
+tracking = tk.Text(root, height=30, width=40, wrap=tk.WORD)
 tracking.grid(row=5, column=2, columnspan=2, padx=1, pady=2)
+tracking.insert(tk.END, initial_data)
+tracking.config(state="disabled")
 
 root.mainloop()
