@@ -36,25 +36,36 @@ def set_search():
     return 0
 
 def click_search():
+    output.configure(state="normal")
     search_code = set_search()
-    user_input = enterSearch.get()
+    user_input = search_term.get()
     res = "Searching for " + user_input
     lblSearch.configure(text = res)
     output.delete('0.0', tk.END)
     output.insert(tk.END, back_functions.display(user_input, search_code))
+    output.configure(state="disabled")
 
-lblSearch = tk.Label(root, text="Search using departure (iata), arrival (iata), airline, or flight number (iata).")
+def update_options(x):
+    options = back_functions.get_data_list(set_search())
+    search_term.set('')
+    enterSearch['menu'].delete(0, 'end')
+    for option in options:
+        enterSearch['menu'].add_command(label=option, command=tk._setit(search_term, option))
+
+lblSearch = tk.Label(root, text="Search using departure airport (name/iata), arrival airport (name/iata), airline, or flight number (iata).")
 lblSearch.grid(row=1, column=1, padx=1, pady=2)
 search_list = ['Departure (Name)', 'Departure (IATA)', 'Arrival (Name)', 'Arrival (IATA)', 'Airline', 'Flight #']
 search_choice = tk.StringVar()
-search_choice.set('---')
-search_dropdown = tk.OptionMenu(root, search_choice, *search_list)
+search_choice.set('Choose Category')
+search_dropdown = tk.OptionMenu(root, search_choice, *search_list, command=update_options)
 search_dropdown.grid(row=2, column=1)
-enterSearch = tk.Entry(root, width=20)
+search_term = tk.StringVar()
+search_term.set('---')
+enterSearch = tk.OptionMenu(root, search_term, [])
 enterSearch.grid(row=3, column=1, padx=1, pady=2)
 btnSearch = tk.Button(root, text="Search", fg="red", command=click_search)
 btnSearch.grid(row=4, column=1, padx=1, pady=2)
-output = tk.Text(root, height=20, width=120, wrap=tk.WORD)
+output = tk.Text(root, height=20, width=120, wrap=tk.WORD, state="disabled")
 output.grid(row=5, column=0, columnspan=3, padx=1, pady=2)
 
 def click_save():
@@ -65,9 +76,11 @@ def click_save():
     btnRestore.config(fg='green')
 
 def click_restore():
+    output.configure(state="normal")
     txt = back_functions.read_saved_search("data.csv")
     output.delete('0.0', tk.END)
     output.insert(tk.END, txt)
+    output.configure(state="disabled")
 
 btnSave = tk.Button(root, text="Save", command=click_save)
 btnSave.grid(row=0, column=2, padx=1, pady=2)
@@ -75,18 +88,22 @@ btnRestore = tk.Button(root, text="Restore", fg="black", command=click_restore)
 btnRestore.grid(row=1, column=2, padx=1, pady=2)
 
 def click_track():
+    tracking.configure(state="normal")
     with open("track_list.txt", 'a+') as track_list:
         flight_num = enterTrack.get()
         track_list.write(flight_num + "\n")
         tkmsg.showinfo("Tracking! ", "Now tracking " + flight_num)
     tracking.delete('0.0', tk.END)
     tracking.insert(tk.END, back_functions.read_tracking_file())
+    tracking.configure(state="disabled")
 
 def click_clear_tracking():
+    tracking.configure(state="normal")
     with open("track_list.txt", "w+") as to_clear:
         pass
     tracking.delete('0.0', tk.END)
     tracking.insert(tk.END, "No flights tracked")
+    tracking.configure(state="disabled")
 
 lblTrack = tk.Label(root, text="Enter flight number below to track flights")
 lblTrack.grid(row=1, column=0, padx=1, pady=2)
@@ -96,7 +113,7 @@ btnTrack = tk.Button(root, text="Track", command=click_track)
 btnTrack.grid(row=3, column=0, padx=1, pady=2)
 btnClear = tk.Button(root, text="Clear All", command=click_clear_tracking)
 btnClear.grid(row=4, column=0, padx=1, pady=2)
-tracking = tk.Text(root, height=10, width=120, wrap=tk.WORD)
+tracking = tk.Text(root, height=10, width=120, wrap=tk.WORD, state="disabled")
 tracking.grid(row=6, column=0, columnspan=3, padx=1, pady=2)
 tracking.insert(tk.END, initial_data)
 
