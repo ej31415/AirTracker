@@ -11,9 +11,9 @@ root.title("AirTracker V1")
 root.geometry('969x750')
 
 menu = tk.Menu(root)
-item = tk.Menu(menu)
-item.add_command(label='New')
+item = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label='File', menu=item)
+item.add_command(label='Close Program', command=root.destroy)
 root.config(menu=menu)
 
 header = tk.Label(root, text="Flight Tracking")
