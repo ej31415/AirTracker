@@ -97,7 +97,7 @@ def click_track():
         return
     with open("track_list.txt", 'a+') as track_list:
         track_list.write(flight_num + "\n")
-        tkmsg.showinfo("Tracking! ", "Now tracking " + flight_num)
+        tkmsg.showinfo("Tracking! ", "Attempting to track " + flight_num)
     tracking.delete('0.0', tk.END)
     tracking.insert(tk.END, back_functions.read_tracking_file())
     tracking.configure(state="disabled")
@@ -110,6 +110,14 @@ def click_clear_tracking():
     tracking.insert(tk.END, "No flights tracked")
     tracking.configure(state="disabled")
 
+def refresh_tracking():
+    back_functions.api_response = back_functions.pull_data()
+    tracking.configure(state="normal")
+    tracking.delete('0.0', tk.END)
+    tracking.insert(tk.END, back_functions.read_tracking_file())
+    tracking.configure(state="disabled")
+    root.after(1000*600, refresh_tracking)
+
 lblTrack = tk.Label(root, text="Enter flight number below to track flights")
 lblTrack.grid(row=1, column=2, padx=1, pady=2)
 enterTrack = tk.Entry(root, width=20)
@@ -121,6 +129,7 @@ btnClear.grid(row=4, column=3, padx=1, pady=2)
 tracking = tk.Text(root, height=30, width=40, wrap=tk.WORD)
 tracking.grid(row=5, column=2, columnspan=2, padx=1, pady=2)
 tracking.insert(tk.END, initial_data)
+root.after(1000*600, refresh_tracking)
 tracking.config(state="disabled")
 
 root.mainloop()
