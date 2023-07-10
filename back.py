@@ -171,4 +171,3 @@ def send_mail():
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD) 
         smtp.send_message(msg)
 
-send_mail()
