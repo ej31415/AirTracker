@@ -1,9 +1,9 @@
 import tkinter as tk
 import tkinter.messagebox as tkmsg
 import pandas as pd
-import back_functions
+import back
 
-initial_data = back_functions.start_program()
+initial_data = back.start_program()
 
 root = tk.Tk()
 
@@ -42,11 +42,11 @@ def click_search():
     res = "Searching for " + user_input
     lblSearch.configure(text = res)
     output.delete('0.0', tk.END)
-    output.insert(tk.END, back_functions.display(user_input, search_code))
+    output.insert(tk.END, back.display(user_input, search_code))
     output.configure(state="disabled")
 
 def update_options(x):
-    options = back_functions.get_data_list(set_search())
+    options = back.get_data_list(set_search())
     search_term.set('')
     enterSearch['menu'].delete(0, 'end')
     for option in options:
@@ -78,7 +78,7 @@ def click_save():
 
 def click_restore():
     output.configure(state="normal")
-    txt = back_functions.read_saved_search("data.csv")
+    txt = back.read_saved_search("data.csv")
     output.delete('0.0', tk.END)
     output.insert(tk.END, txt)
     output.configure(state="disabled")
@@ -99,7 +99,7 @@ def click_track():
         track_list.write(flight_num + "\n")
         tkmsg.showinfo("Tracking! ", "Attempting to track " + flight_num)
     tracking.delete('0.0', tk.END)
-    tracking.insert(tk.END, back_functions.read_tracking_file())
+    tracking.insert(tk.END, back.read_tracking_file())
     tracking.configure(state="disabled")
 
 def click_clear_tracking():
@@ -111,10 +111,10 @@ def click_clear_tracking():
     tracking.configure(state="disabled")
 
 def refresh_tracking():
-    back_functions.api_response = back_functions.pull_data()
+    back.api_response = back.pull_data()
     tracking.configure(state="normal")
     tracking.delete('0.0', tk.END)
-    tracking.insert(tk.END, back_functions.read_tracking_file())
+    tracking.insert(tk.END, back.read_tracking_file())
     tracking.configure(state="disabled")
     root.after(1000*600, refresh_tracking)
 
