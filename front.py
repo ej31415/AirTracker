@@ -155,8 +155,11 @@ def click_clear_emails():
 
 def click_view_emails():
     txt = ""
-    for email in open("recipients.txt", 'r').readlines():
-        txt += email
+    try:
+        for email in open("recipients.txt", 'r').readlines():
+            txt += email
+    except IOError:
+        pass
     if txt == "":
         txt = "No recipients yet!"
     tkmsg.showinfo("Recipients", txt)

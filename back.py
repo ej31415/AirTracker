@@ -157,14 +157,31 @@ def get_data_list(group):
             choices.add(addition)
     return sorted(choices)
 
+def digest_message(flight):
+    return
+
 def send_mail():
     EMAIL_ADDRESS = config.EMAIL_ADDRESS
     EMAIL_PASSWORD = config.EMAIL_PASSWORD
+
+    mailing_list = []
+    try:
+        for email in open("recipients.txt", 'r').readlines():
+            mailing_list.append(email[:-1])
+    except IOError:
+        pass
+    
+    message_content = ""
+    try:
+        for flight in open("track_list.txt", 'r').readlines():
+            message_content += (digest_message(flight) + "\n")
+    except IOError:
+        return
     
     msg = em.EmailMessage()
-    msg['Subject'] = 'Testing Subject'
+    msg['Subject'] = '[Air Tracker] Updates'
     msg['From'] = EMAIL_ADDRESS
-    msg['To'] = 'xiaodongxie04@gmail.com'
+    msg['To'] = mailing_list
     msg.set_content('Hi')
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
