@@ -8,8 +8,9 @@ initial_data = back.start_program()
 root = tk.Tk()
 
 root.title("AirTracker V1")
-# root.geometry('969x750')
-root.attributes('-fullscreen', True)
+width = root.winfo_screenwidth()
+height = root.winfo_screenheight()
+root.geometry("%dx%d" % (width, height))
 
 menu = tk.Menu(root)
 item = tk.Menu(menu, tearoff=0)
