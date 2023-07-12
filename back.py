@@ -157,8 +157,26 @@ def get_data_list(group):
             choices.add(addition)
     return sorted(choices)
 
-def digest_message(flight):
-    return
+def digest_message(process_flight):
+    txt = ""
+    found = False
+    for flight in api_response['data']:
+        if process_flight == flight['flight']['iata']:
+            found = True
+            txt = "Flight " + flight['flight']['iata'] + " is "
+            if flight['departure']['delay'] == None:
+                txt += 'departing on time and '
+            else:
+                txt += 'departing ' + str(flight['departure']['delay']) + ' minutes late and '
+            if flight['arrival']['delay'] == None:
+                txt += 'arriving on time.'
+            else:
+                txt += 'arriving ' + str(flight['arrival']['delay']) + ' minutes late.'
+        if found:
+            break
+    if not found:
+        txt = "No results for " + process_flight
+    return txt
 
 def send_mail():
     EMAIL_ADDRESS = config.EMAIL_ADDRESS
@@ -169,12 +187,12 @@ def send_mail():
         for email in open("recipients.txt", 'r').readlines():
             mailing_list.append(email[:-1])
     except IOError:
-        pass
+        return
     
     message_content = ""
     try:
         for flight in open("track_list.txt", 'r').readlines():
-            message_content += (digest_message(flight) + "\n")
+            message_content += (digest_message(flight[:-1]) + "\n\n")
     except IOError:
         return
     
@@ -182,9 +200,8 @@ def send_mail():
     msg['Subject'] = '[Air Tracker] Updates'
     msg['From'] = EMAIL_ADDRESS
     msg['To'] = mailing_list
-    msg.set_content('Hi')
+    msg.set_content(message_content)
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD) 
         smtp.send_message(msg)
-

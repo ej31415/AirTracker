@@ -120,6 +120,7 @@ def refresh_tracking():
     tracking.delete('0.0', tk.END)
     tracking.insert(tk.END, back.read_tracking_file())
     tracking.configure(state="disabled")
+    back.send_mail()
     root.after(1000*600, refresh_tracking)
 
 lblTrack = tk.Label(root, text="Enter flight number below to track flights")
