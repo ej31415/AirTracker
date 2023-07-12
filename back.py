@@ -138,6 +138,13 @@ def read_tracking_file():
     return track_data
 
 def get_data_list(group):
+    """
+    Generates a list of all the options of a type in the dataset
+
+    Input   --  Integer group coded for a specific type
+
+    Output  --  List holding the each entry of the type in the dataset in sorted alphabetically
+    """
     choices = set([])
     for flight in api_response['data']:
         addition = ''
@@ -158,6 +165,13 @@ def get_data_list(group):
     return sorted(choices)
 
 def digest_message(process_flight):
+    """
+    Generates a shortened message about a flight's time status
+
+    Input   --  String process_flight for a flight number
+
+    Output  --  String txt for the message about departure and arrival status
+    """
     txt = ""
     found = False
     for flight in api_response['data']:
@@ -179,6 +193,9 @@ def digest_message(process_flight):
     return txt
 
 def send_mail():
+    """
+    Sends emails about each tracked flight to each recipient
+    """
     EMAIL_ADDRESS = config.EMAIL_ADDRESS
     EMAIL_PASSWORD = config.EMAIL_PASSWORD
 
