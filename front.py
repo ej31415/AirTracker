@@ -2,20 +2,24 @@ import tkinter as tk
 import tkinter.messagebox as tkmsg
 import pandas as pd
 import back
+import interface.emails as iEm
 
 initial_data = back.start_program()
 
 root = tk.Tk()
 
 root.title("AirTracker V1")
-width = root.winfo_screenwidth()
-height = root.winfo_screenheight()
-root.geometry("%dx%d" % (width, height))
+root.geometry("969x750")
 
 menu = tk.Menu(root)
-item = tk.Menu(menu, tearoff=0)
-menu.add_cascade(label='File', menu=item)
-item.add_command(label='Close Program', command=root.destroy)
+file = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label='File', menu=file)
+file.add_command(label='Close Program', command=root.destroy)
+notifs = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label='Notifications', menu=notifs)
+notifs.add_command(label='Add Email', command=iEm.add_email)
+notifs.add_command(label='View Mailing List', command=iEm.view_emails)
+notifs.add_command(label='Clear Mailing List', command=iEm.clear_emails)
 root.config(menu=menu)
 
 header = tk.Label(root, text="Flight Tracking")
@@ -67,7 +71,7 @@ enterSearch = tk.OptionMenu(root, search_term, [])
 enterSearch.grid(row=3, column=0, padx=1, pady=2)
 btnSearch = tk.Button(root, text="Search", fg="red", command=click_search)
 btnSearch.grid(row=4, column=0, padx=1, pady=2)
-output = tk.Text(root, height=30, width=80, wrap=tk.WORD)
+output = tk.Text(root, height=20, width=80, wrap=tk.WORD)
 output.grid(row=5, column=0, columnspan=2, padx=1, pady=2)
 output.config(state="disabled")
 
@@ -137,44 +141,5 @@ tracking.grid(row=5, column=2, columnspan=2, padx=1, pady=2)
 tracking.insert(tk.END, initial_data)
 root.after(1000*600, refresh_tracking)
 tracking.config(state="disabled")
-
-def click_add_email():
-    email = enterEmail.get()
-    try:
-        if (email + "\n") in open('recipients.txt', 'r').readlines():
-            tkmsg.showinfo("Notice", email + " is already on the recipient list.")
-            return
-    except IOError:
-        pass
-    with open("recipients.txt", 'a+') as track_list:
-        track_list.write(email + "\n")
-        tkmsg.showinfo("Tracking! ", "Added " + email + " for tracked flights notifications.")
-
-def click_clear_emails():
-    with open("recipients.txt", "w+") as to_clear:
-        pass
-    tkmsg.showinfo("Success", "All emails cleared from recipients list.")
-
-def click_view_emails():
-    txt = ""
-    try:
-        for email in open("recipients.txt", 'r').readlines():
-            txt += email
-    except IOError:
-        pass
-    if txt == "":
-        txt = "No recipients yet!"
-    tkmsg.showinfo("Recipients", txt)
-
-lblEmail = tk.Label(root, text="Enter your email below to receive notifications")
-lblEmail.grid(row=6, column=2, padx=1, pady=2)
-enterEmail = tk.Entry(root, width=20)
-enterEmail.grid(row=7, column=2, padx=1, pady=2)
-btnEmailAdd = tk.Button(root, text="Add Email", command=click_add_email)
-btnEmailAdd.grid(row=6, column=3, padx=1, pady=2)
-btnClearEmail = tk.Button(root, text="Clear Email(s)", command=click_clear_emails)
-btnClearEmail.grid(row=7, column=3, padx=1, pady=2)
-btnViewEmail = tk.Button(root, text="View Saved Email(s)", command=click_view_emails)
-btnViewEmail.grid(row=8, column=2, padx=1, pady=2)
 
 root.mainloop()
