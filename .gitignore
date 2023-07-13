@@ -1,0 +1,9 @@
+*.txt
+*.csv
+__pycache__/
+build/
+dist/
+main.py
+main.spec
+sample_data_set.py
+config.py
