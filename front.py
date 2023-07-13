@@ -71,7 +71,7 @@ enterSearch = tk.OptionMenu(root, search_term, [])
 enterSearch.grid(row=3, column=0, padx=1, pady=2)
 btnSearch = tk.Button(root, text="Search", fg="red", command=click_search)
 btnSearch.grid(row=4, column=0, padx=1, pady=2)
-output = tk.Text(root, height=20, width=80, wrap=tk.WORD)
+output = tk.Text(root, height=30, width=80, wrap=tk.WORD)
 output.grid(row=5, column=0, columnspan=2, padx=1, pady=2)
 output.config(state="disabled")
 
