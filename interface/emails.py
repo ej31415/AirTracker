@@ -1,3 +1,4 @@
+import tkinter as tk
 import tkinter.messagebox as tkmsg
 import tkinter.simpledialog as tksd
 
@@ -12,6 +13,23 @@ def add_email():
     with open("recipients.txt", 'a+') as track_list:
         track_list.write(email + "\n")
         tkmsg.showinfo("Tracking! ", "Added " + email + " for tracked flights notifications.")
+
+def delete_email():
+    email = tksd.askstring(title='Delete Email', prompt="What is your email? ")
+    try:
+        with open("recipients.txt", "r") as rList:
+            recipients = rList.readlines()
+        if (email + "\n") not in recipients:
+            tkmsg.showinfo("Notice", email + " is not on the recipient list.")
+            return
+        else: 
+            with open("recipients.txt", "w+") as rList:
+                for recipient in recipients:
+                    if recipient[:-1] != email:
+                        rList.write(recipient)
+            tkmsg.showinfo("Success", email + " has been deleted!")
+    except IOError:
+        return
 
 def clear_emails():
     with open("recipients.txt", "w+") as to_clear:

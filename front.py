@@ -9,7 +9,7 @@ initial_data = back.start_program()
 root = tk.Tk()
 
 root.title("AirTracker V1")
-root.geometry("969x750")
+root.geometry('972x750')
 
 menu = tk.Menu(root)
 file = tk.Menu(menu, tearoff=0)
@@ -19,6 +19,8 @@ notifs = tk.Menu(menu, tearoff=0)
 menu.add_cascade(label='Notifications', menu=notifs)
 notifs.add_command(label='Add Email', command=iEm.add_email)
 notifs.add_command(label='View Mailing List', command=iEm.view_emails)
+notifs.add_command(label="Delete Email", command=iEm.delete_email)
+notifs.add_separator()
 notifs.add_command(label='Clear Mailing List', command=iEm.clear_emails)
 root.config(menu=menu)
 
